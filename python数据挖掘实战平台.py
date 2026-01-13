@@ -1,4 +1,3 @@
-# streamlit run 03谢卓君.py
 import streamlit as st
 import os
 import pandas as pd
@@ -10,7 +9,7 @@ from datetime import datetime
 
 # =页面配置 
 st.set_page_config(
-    page_title="03谢卓君_Python数据挖掘实战",
+    page_title="Python数据挖掘实战",
     page_icon="❀",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -119,7 +118,7 @@ def generate_knowledge_with_ai(py_content, py_file, chapter_folder):
     import requests
     
     # 硅基流动平台的API配置
-    api_key = "sk-hmzcxvovibmlguvhozdrrnbzpxmgyoxxgkwvsbydmxrfxdmf"  # API密钥
+    api_key = "填写您的API密钥"  # API密钥
     api_url = "https://api.siliconflow.cn/v1/chat/completions"
     
     headers = {
@@ -610,3 +609,4 @@ if len(chapter_files) > 1:
 else:
     # 如果只有一个文件，直接显示
     display_file_content(current_chapter, chapter_files[0], "0")
+
