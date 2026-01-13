@@ -31,62 +31,6 @@
 　　内容分析: 将代码片段（前3000字符）发送给AI模型；  
 　　结构化输出: 要求AI按"功能概述-核心知识点-扩展应用"结构生成教学内容；  
 　　缓存机制: 使用@st.cache_data和st.session_state双重缓存减少API调用。  
-```python
-# 使用硅基流动API生成知识点
-def generate_knowledge_with_ai(py_content, py_file, chapter_folder):  
-    import requests
-    
-    # 硅基流动平台的API配置
-    api_key = "你的API密钥"  # API密钥
-    api_url = "https://api.siliconflow.cn/v1/chat/completions"
-    
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    
-    # 构建分析请求
-    prompt = f"""作为Python数据挖掘教学助手，请分析以下Python代码，生成详细的知识点讲解：
-        - 文件名称：{py_file}
-        - 所属章节：{chapter_folder}
-        {py_content[:3000]}  # 限制代码长度，避免超出token限制
-        请按照以下结构生成知识点讲解：
-        代码功能概述：简要说明这段代码的主要功能
-        核心知识点：列出代码中涉及的主要Python/数据挖掘知识点
-        扩展应用：说明这些知识在实际项目中的应用场景
-        要求：
-        使用中文回答，语言简洁明了，适合初学者理解，重点突出，结构清晰
-        """
-    data = {
-        "model": "THUDM/glm-4-9b-chat",  # 硅基流动上的模型
-        "messages": [
-            {
-                "role": "system", 
-                "content": "你是一位资深的Python数据挖掘教学专家，擅长用简洁易懂的语言整理代码知识点，生成的内容美观，文本在不超过500字"
-            },
-            {
-                "role": "user", 
-                "content": prompt
-            }
-        ],
-        "temperature": 0.7,
-        "max_tokens": 500,
-        }
-    try:
-        response = requests.post(api_url, headers=headers, json=data, timeout=30)
-        if response.status_code == 200:
-            result = response.json()
-            ai_content = result['choices'][0]['message']['content']
-            return ai_content
-        else:
-            return f"#调用失败 (状态码: {response.status_code})\n响应内容: {response.text[:500]}"
-    except requests.exceptions.Timeout:
-        return "## ⏰ 请求超时，请稍后重试"
-    except requests.exceptions.ConnectionError:
-        return "## 🔌 网络连接失败，请检查网络"
-    except Exception as e:
-        return f"## ❌ AI生成失败: {str(e)}"    
-```
 ### 3.3 代码执行环境模块  
 **功能:** 提供安全的在线代码编辑和运行环境  
 实现逻辑:  
